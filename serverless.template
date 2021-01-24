@@ -1,0 +1,88 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "An AWS Serverless Application.",
+  "Resources": {
+  "GraphQLReceivedMessageFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "HotChocolateService::HotChocolateService.LambdaEntryPoint::ReceivedGraphQLMessageHandler",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+         
+        ]
+      }
+    },
+   "GraphQLSentMessageFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "HotChocolateService::HotChocolateService.LambdaEntryPoint::SentGraphQLMessageHandler",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+         
+        ]
+      }
+    },
+     "GraphQLSentMessagePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "DependsOn": [
+        "GraphQLSentMessageFunction"
+      ],
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "GraphQLSentMessageFunction"
+        },
+        "Principal": "lambda.amazonaws.com"
+      }
+    },
+     "GraphQLReceivedMessagePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "DependsOn": [
+        "GraphQLReceivedMessageFunction"
+      ],
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "GraphQLReceivedMessageFunction"
+        },
+        "Principal": "lambda.amazonaws.com"
+      }
+    },
+ 
+    "LambdaRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        ]
+      }
+    }
+  
+  },
+  "Outputs": {}
+}
