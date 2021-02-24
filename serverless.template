@@ -17,6 +17,20 @@
         ]
       }
     },
+     "GetMessageType": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "HotChocolateService::HotChocolateService.LambdaEntryPoint::HandleGraphQLMessageType",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ]                                                                             
+      }
+    },
    "GraphQLSentMessageFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
@@ -31,6 +45,20 @@
         ]
       }
     },
+    "GraphQLReceivedMutationFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "HotChocolateService::HotChocolateService.LambdaEntryPoint::ReceivedGraphQLMutationHandler",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+         
+        ]
+        }
+      },
      "GraphQLSentMessagePermission": {
       "Type": "AWS::Lambda::Permission",
       "DependsOn": [

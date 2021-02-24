@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using HotChocolate.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,14 +19,22 @@ namespace HotChocolateService
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                 services.AddSingleton<GraphQLServiceWorker>();   
-              //  services.AddLogging(l => l.AddConfiguration(Configuration));
-              //  services.AddHostedService<Worker>();
-             //   services.AddScoped<IGraphQLServiceWorker, GraphQLServiceWorker>();
+               /* services.AddSingleton<GraphQLServiceWorker>();
+                services.AddGraphQLServer()
+               .AddMutationType<Mutation>()
+               .AddType<MsgType>()
+               .AddType<MessageFromType>()
+               .AddType<Review>();
+               */
+                //  services.AddLogging(l => l.AddConfiguration(Configuration));
+                //  services.AddHostedService<Worker>();
+                //   services.AddScoped<IGraphQLServiceWorker, GraphQLServiceWorker>();
             });
+        }
     }
 }
